@@ -26,11 +26,12 @@ class Analytics extends UIPage {
 
 	open() {
 		this._contentElement.style.display = 'block'
-		this._view._tag.open_stats(this._tool.auth.username)
+		this._view._tag.openStats(this._tool.auth.username)
 	}
 
 	close() {
 		this._contentElement.style.display = 'none'
+		this._view._tag.clearStats()
 	}
 
 	get icon() {

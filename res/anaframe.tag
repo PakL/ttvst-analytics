@@ -44,17 +44,24 @@
 				})
 			},
 
-			open_stats(username) {
+			openStats(username) {
 				this._username = username
 				if(this.frame !== null) {
 					this.frame.loadURL('https://www.twitch.tv/' + this._username.toLowerCase() + '/dashboard/channel-analytics')
 				}
 			},
 
+			clearStats() {
+				if(this.frame !== null) {
+					this.frame.loadURL('about:blank')
+				}
+			},
+
 			pagechange() {
 				let location = this.frame.getURL()
+				console.log('[Analytics]' + location)
 
-				if(location.length <= 0) return
+				if(location.length <= 0 || location == 'about:blank') return
 				if(!location.startsWith('https://passport.twitch.tv/') && !location.startsWith('https://www.twitch.tv/' + this._username.toLowerCase() + '/dashboard/channel-analytics')) {
 					this.frame.loadURL('https://www.twitch.tv/' + this._username + '/dashboard/channel-analytics')
 				}
