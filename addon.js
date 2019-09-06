@@ -35,7 +35,7 @@ class Analytics extends UIPage {
 	}
 
 	get icon() {
-		return '📈'
+		return 'BIDashboard'
 	}
 }
 module.exports = Analytics
