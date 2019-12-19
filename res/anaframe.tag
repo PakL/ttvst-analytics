@@ -28,9 +28,9 @@
 				const self = this
 				this.frame = this.root.querySelector('webview')
 				this.frame.addEventListener('did-finish-load', () => { self.pagechange() })
-				if(this._username.length > 0) {
+				/*if(this._username.length > 0) {
 					this.frame.loadURL('https://www.twitch.tv/' + this._username.toLowerCase() + '/dashboard/channel-analytics')
-				}
+				}*/
 				this.frame.addEventListener('new-window', (e) => {
 					if(e.disposition != 'save-to-disk') {
 						shell.openExternal(e.url)
@@ -47,7 +47,7 @@
 			openStats(username) {
 				this._username = username
 				if(this.frame !== null) {
-					this.frame.loadURL('https://www.twitch.tv/' + this._username.toLowerCase() + '/dashboard/channel-analytics')
+					this.frame.loadURL('https://dashboard.twitch.tv/u/' + this._username.toLowerCase() + '/channel-analytics')
 				}
 			},
 
@@ -62,18 +62,11 @@
 				console.log('[Analytics]' + location)
 
 				if(location.length <= 0 || location == 'about:blank') return
-				if(!location.startsWith('https://passport.twitch.tv/') && !location.startsWith('https://www.twitch.tv/' + this._username.toLowerCase() + '/dashboard/channel-analytics')) {
-					this.frame.loadURL('https://www.twitch.tv/' + this._username + '/dashboard/channel-analytics')
+				if(!location.startsWith('https://passport.twitch.tv/') && !location.startsWith('https://dashboard.twitch.tv/u/' + this._username.toLowerCase() + '/')) {
+					this.frame.loadURL('https://dashboard.twitch.tv/u/' + this._username.toLowerCase() + '/channel-analytics')
 				}
 				
 				let webcontent = this.frame.getWebContents()
-				webcontent.insertCSS('\
-						.top-nav,\
-						.dashboard-side-nav,\
-						.ca-welcome-modal,\
-						.tw-tooltip-wrapper\
-						{ display: none !important; }\
-				')
 				webcontent.executeJavaScript('\
 					document.querySelector("html").classList.add("tw-root--theme-dark");\
 					setTimeout(() => { document.querySelectorAll("a.button")[0].style.display="none"; }, 2000);\
